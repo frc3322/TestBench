@@ -9,6 +9,7 @@ package frc.robot;
 
 import javax.swing.table.TableStringConverter;
 
+import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -29,6 +30,8 @@ public class Robot extends TimedRobot {
   public static Testing testing = new Testing();
   public static OI oi;
 
+  Compressor compressor;
+
   Command m_autonomousCommand;
   SendableChooser<Command> m_chooser = new SendableChooser<>();
 
@@ -39,6 +42,7 @@ public class Robot extends TimedRobot {
   @Override
   public void robotInit() {
     oi = new OI();
+    compressor = new Compressor();
   }
 
   /**
@@ -120,6 +124,14 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {
     Scheduler.getInstance().run();
+    SmartDashboard.putNumber("Compressor Current", compressor.getCompressorCurrent());
+    SmartDashboard.putBoolean("Compressor Current Too High Fault", compressor.getCompressorCurrentTooHighFault());
+    SmartDashboard.putBoolean("Compressor Current Too High Sticky Fault", compressor.getCompressorCurrentTooHighStickyFault());
+    SmartDashboard.putBoolean("Compressor Shorted", compressor.getCompressorShortedFault());
+    SmartDashboard.putBoolean("Compressor Shorted Sticky Fault", compressor.getCompressorShortedStickyFault());
+    SmartDashboard.putBoolean("Compressor Pressure Switch Value", compressor.getPressureSwitchValue());
+    SmartDashboard.putBoolean("Compressor Not Connected Fault", compressor.getCompressorNotConnectedFault());
+    SmartDashboard.putBoolean("Compressor Not Connected Sticky Fault", compressor.getCompressorNotConnectedStickyFault());
   }
 
   /**
